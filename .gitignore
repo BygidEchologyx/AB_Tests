@@ -144,12 +144,12 @@
 #editing as my need
 .DS_Store
 .gitignore
-.vscode
-core
+.vscode/*
+core/*
 node_modules
 skeleton
 history.json
-LISCENSE
+LICENSE
 settings.json
 package-lock.json
 package.json
