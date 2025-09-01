@@ -215,7 +215,6 @@
             .input-group--license-plate .form-control {
               text-align: start;
               border-color: #CC9A00;
-              width: 190px;
               height: 100%;
             }
 
@@ -327,6 +326,7 @@
               .test-top-inner {
                 width: auto;
                 margin: 0px 25px;
+                padding: 0px 15px;
                 height: 443px;
               }
               .test-title {
@@ -366,7 +366,7 @@
 
               .test-bottom-section {
                 height: 160px;
-                margin-left: 5%;
+                margin-left: 7%;
               }
             }
             
@@ -376,9 +376,25 @@
               }
 
               .test-top-btn {
-                padding: 15px 25px;
+                width: auto;
+                gap: 40px;
+                padding: 15px 0;
+                justify-content: space-between;
+              }
+
+              .test-top-btn-text {
+                margin-left: 28px;
+              }
+              .test-top-btn-icon {
+                margin-right: 19px;
               }
                 
+              .test-inner-mid-form {
+                width: 100%;
+                gap: 5px;
+                margin-top: 15px;
+              }
+
               .test-form-btn {
                 height: 44px;
                 padding: 8px 15px;
@@ -389,12 +405,13 @@
                 font-size: 12px;
               }
 
-              .test-mid-form-field {
-                gap: 20px;
+              .test-mid-form-label {
+                font-size: 12px;
               }
 
-              .input-group--license-plate .form-control {
-                width: 140px;
+              .test-mid-form-field {
+                gap: 15px;
+                justify-content: space-between;
               }
 
               .test-inner-bottom-section {
@@ -410,18 +427,14 @@
               }
             }
 
-            @media screen and (max-width: 389px) {
+            @media screen and (max-width: 390px) {
               .test-title {
                 font-size: 20px;
                 margin-bottom: 20px;
               }
               .test-top-btn {
-                gap: 15px;
+                gap: 35px;
                 margin-bottom: 25px;
-              }
-
-              .test-top-btn-text {
-                font-size: 13px;
               }
 
               .test-inner-mid-form {
@@ -430,14 +443,6 @@
 
               .test-inner-mid-title {
                 font-size: 17px;
-              }
-
-              .test-mid-form-field {
-                gap: 20px;
-              }
-
-              .input-group--license-plate .form-control {
-                width: 110px;
               }
 
               .test-inner-bottom-section {
@@ -597,5 +602,3 @@
     }
   );
 })();
-
-menu__cta.btn - primary;
