@@ -36,9 +36,7 @@
             console.log("== returning ==");
             return;
           }
-          document
-            .querySelector(config.selector)
-            ?.classList?.add(`${config.test_id}`);
+          document.querySelector(config.selector).classList.add(config.test_id);
 
           this.mainJS();
           this.mainCSS();
@@ -209,25 +207,6 @@
           }
 
           applyChanges();
-          let lastUrl = location.href;
-          new MutationObserver(() => {
-            const currentUrl = location.href;
-            if (lastUrl !== currentUrl) {
-              console.log("== url changed ==", currentUrl);
-              lastUrl = currentUrl;
-
-              setTimeout(() => {
-                waitForElement(
-                  () => !!document.querySelector(".pdp__order-addtocart h3"),
-                  () => {
-                    console.log("== reinitializing for new page ==");
-                    echoVariation.init(true);
-                  },
-                  3000
-                );
-              }, 100);
-            }
-          }).observe(document, { subtree: true, childList: true });
         },
         handleClarityTracking: function () {
           // Clarity tracking
