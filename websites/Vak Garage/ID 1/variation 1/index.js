@@ -223,6 +223,10 @@
               padding: 8px 18px;
             }
 
+            .test-form-btn-icon {
+              margin-top: 2px;
+            }
+
             .test-inner-bottom-section {
               border: 1px solid #C3C3C3;
               border-radius: 5px;
@@ -274,6 +278,12 @@
               font-size: 12px;
               font-weight: 500;
               align-self: start;
+            }
+
+            @media screen and (min-width: 1331px) {
+              .test-inner-bottom-section {
+                width: 75%;
+              }
             }
 
             @media screen and (max-width: 1330px) {
@@ -372,7 +382,12 @@
             
             @media screen and (max-width: 480px) {
               .input-group {
+                width: 100%;
                 height: 56px;
+              }
+
+              .input-group .input-group--license-plate {
+                width: 88%;
               }
 
               .test-top-btn {
@@ -449,6 +464,15 @@
                 padding: 10px 0;
               }
             }
+
+            @media screen and (max-width: 360px) {
+              .test-top-btn {
+                gap: 20px;
+              }
+
+              .test-top-btn-text {
+                margin-left: 25px;
+              }
            `;
         },
 
@@ -499,9 +523,9 @@
                     <div class="test-inner-bottom-section">   
                       <img class="bottom-section-first-img" src="https://afhlcgnenq.cloudimg.io/v7/https://s3.eu-central-1.amazonaws.com/vakgarage-nl/10/bovag-2x.png?v=1-0&amp;height=60" srcset="https://afhlcgnenq.cloudimg.io/v7/https://s3.eu-central-1.amazonaws.com/vakgarage-nl/10/bovag-2x.png?v=1-0&amp;height=120 2x" alt="bovag@2x" loading="lazy" width="190.3125" height="70">
 
-                      <img class="bottom-section-second-img" src="https://abtest-img-upload.s3.eu-west-2.amazonaws.com/Muurschild+RDW+Erkend+bedrijf+1.svg" srcset="https://abtest-img-upload.s3.eu-west-2.amazonaws.com/Muurschild+RDW+Erkend+bedrijf+1.svg" alt="bottom-section-img-2"/>
+                      <img class="bottom-section-second-img" src="https://s3.eu-central-1.amazonaws.com/vakgarage-nl/04/rdw-erkend.png" srcset="https://s3.eu-central-1.amazonaws.com/vakgarage-nl/04/rdw-erkend.png" alt="bottom-section-img-2"/>
                       
-                      <img class="bottom-section-third-img" src="https://abtest-img-upload.s3.eu-west-2.amazonaws.com/Scherm_afbeelding+2025-08-06+om+09.34.41+2.svg" srcset="https://abtest-img-upload.s3.eu-west-2.amazonaws.com/Scherm_afbeelding+2025-08-06+om+09.34.41+2.svg" alt="bottom-section-img-3"/>
+                      <img class="bottom-section-third-img" src="https://s3.eu-central-1.amazonaws.com/vakgarage-nl/01/review-score.png" srcset="https://s3.eu-central-1.amazonaws.com/vakgarage-nl/01/review-score.png" alt="bottom-section-img-3"/>
                     </div>
                   </div>
                 </div>
@@ -542,17 +566,35 @@
           );
           const berekenButton = document.querySelector(".license-plate button");
 
-          document
-            .querySelector(".test-form-btn")
-            .addEventListener("click", (e) => {
-              window._conv_q = window._conv_q || [];
-              _conv_q.push(["triggerConversion", "1004104536"]);
-
+          inputValue[0].addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
               if (inputValue[0].value === "") {
                 document
                   .querySelector(".test-required-message")
                   .setAttribute("style", "display: block");
               } else {
+                window._conv_q = window._conv_q || [];
+                _conv_q.push(["triggerConversion", "1004104536"]);
+
+                document
+                  .querySelector(".test-required-message")
+                  .setAttribute("style", "display: none");
+                inputValue[1].value = inputValue[0].value;
+                berekenButton.click();
+              }
+            }
+          });
+          document
+            .querySelector(".test-form-btn")
+            .addEventListener("click", () => {
+              if (inputValue[0].value === "") {
+                document
+                  .querySelector(".test-required-message")
+                  .setAttribute("style", "display: block");
+              } else {
+                window._conv_q = window._conv_q || [];
+                _conv_q.push(["triggerConversion", "1004104536"]);
+
                 document
                   .querySelector(".test-required-message")
                   .setAttribute("style", "display: none");
@@ -563,14 +605,30 @@
 
           // trigger goal
           waitForElement(
-            () => !!document.querySelector(".main-header__cta a.btn-primary"),
+            () =>
+              !!document.querySelector(".main-header__cta a.btn-primary") &&
+              !!document.querySelector(
+                ".main-header__secondary .menu__cta .btn-primary"
+              ),
             () => {
+              console.log("== inside to conv ==");
               document
                 .querySelector(".main-header__cta a.btn-primary")
                 .addEventListener("click", function () {
                   console.log("== CTA for maak ==");
                   window._conv_q = window._conv_q || [];
                   _conv_q.push(["triggerConversion", "1004104525"]);
+                });
+              document
+                .querySelectorAll(
+                  ".main-header__secondary .menu__cta a.btn-primary"
+                )
+                .forEach((element) => {
+                  element.addEventListener("click", function () {
+                    console.log("== CTA for maak ==");
+                    window._conv_q = window._conv_q || [];
+                    _conv_q.push(["triggerConversion", "1004104525"]);
+                  });
                 });
             }
           );
