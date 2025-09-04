@@ -127,7 +127,13 @@
               color: #38803a;
             }
 
-            @media screen and  (max-width: 991px) {
+            @media screen and (min-width: 1440px) {
+              div.product-details-wrapper.ID26_variation div.product-details-wrapper__payment-details--alt .pdp__order-addtocart .pdp__order-delivery-stock > div > div:nth-child(2) {
+                margin: 0 auto;
+            }
+            }
+            
+            @media screen and (max-width: 991px) {
               .ID26_variation .in-stock:not(.test-in-stock) {
                 display: none;
               }
@@ -184,6 +190,14 @@
                   .querySelectorAll(".id26-updated-btn-icon")
                   .forEach((icon) => {
                     icon.classList.toggle("rotate-180");
+                  });
+
+                document
+                  .querySelectorAll(
+                    ".pdp__order-addtocart .pdp__order-staffel > div:nth-child(2)"
+                  )
+                  ?.forEach((el) => {
+                    el.classList.toggle("d-flex");
                   });
 
                 document
