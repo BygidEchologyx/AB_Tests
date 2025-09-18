@@ -73,7 +73,7 @@
 
             .choco-block.choco-products:nth-of-type(2) div.swiper,
             .choco-block.choco-products:nth-of-type(4) div.swiper {
-              margin-top: 10px;
+              padding-top: 10px;
             }
 
             .choco-block.choco-products:nth-of-type(2) .woocommerce-loop-product__title,
@@ -143,7 +143,7 @@
               display: flex;
               flex-wrap: nowrap;
               gap: 25px;
-              justify-content: space-around;
+              justify-content: center;
             }
 
             .id77-gelengenheden-section-link {
@@ -163,7 +163,24 @@
               color: #FFFFFF;
             }
 
+            .choco-block .outer-wrap {
+              margin: 20px 0;
+            }
+
             /* Media Queries */
+
+            @media only screen and (max-width: 880px) {
+              .choco-block .outer-wrap {
+                margin: unset;
+              }
+
+              .entry-content .choco-block.choco-products:nth-of-type(2),
+              .entry-content .choco-block.choco-products:nth-of-type(4) {
+                margin-left: -20px !important;
+                margin-right: -20px !important;
+                width: calc(100% + 40px) !important;
+              }
+            }
             @media screen and (min-width: 1024px) and (max-width: 1050px) {
               .choco-block.choco-products:nth-of-type(2) .woocommerce-loop-product__title > b,
               .choco-block.choco-products:nth-of-type(4) .woocommerce-loop-product__title > b {
@@ -184,13 +201,6 @@
             }
  
             @media screen and (max-width: 767px) {
-              .entry-content .choco-block.choco-products:nth-of-type(2),
-              .entry-content .choco-block.choco-products:nth-of-type(4) {
-                margin-left: -20px !important;
-                margin-right: -20px !important;
-                width: calc(100% + 40px) !important;
-              }
-
               .choco-block.choco-products:nth-of-type(2) .woocommerce-loop-product__title,
               .choco-block.choco-products:nth-of-type(4) .woocommerce-loop-product__title {
                 padding: 0.5rem !important;
@@ -223,6 +233,10 @@
             }
 
             @media screen and (max-width: 480px) {
+              .choco-block.choco-products:nth-of-type(2) .woocommerce-LoopProduct-link span.price,
+              .choco-block.choco-products:nth-of-type(4) .woocommerce-LoopProduct-link span.price {
+                padding: 0 0 15px 0;
+              }
               .choco-block.choco-products:nth-of-type(2) .woocommerce-loop-product__title,
               .choco-block.choco-products:nth-of-type(4) .woocommerce-loop-product__title {
                 font-size: 16px !important;

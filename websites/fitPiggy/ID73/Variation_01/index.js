@@ -70,8 +70,8 @@
             .proteinerepen-hero-container {
               position: relative;
               width: 100%;
-              height: 216px;
-              background: #FFF3FA;
+              height: 229px;
+              background: #FDEDDD;
               margin-bottom: 1.5rem;
             }
             .proteinerepen-hero-parent {
@@ -81,35 +81,55 @@
             }
             .proteinerepen-hero-title {
               display: block;
-              font-family: Rubik, sans-serif;
-              font-weight: 700;
-              font-size: 26px;
-              }
+              font-family: 'Poppins';
+              font-weight: 800;
+              font-size: 28px;
+              margin-bottom: 3px;
+            }
             .proteinerepen-hero-subtitle {
               display: block;
-              font-family: Rubik, sans-serif;
-              font-weight: 400;
-              font-size: 18px;
+              font-family: 'Poppins';
+              font-weight: 600;
+              font-size: 16px;
               margin-bottom: 10px;
             }
+
+            .proteinerepen-hero-list {
+              display: flex;
+              flex-direction: column;
+            }
+
             .proteinerepen-hero-list-item {
               display: flex;
               align-items:center;
               margin: 4px 0px;
             }
-            .proteinerepen-hero-item-tick {
-              background: #FED2E7;
-              padding: 2px;
-              margin-right: 7px;
-              width: 14px;
-              height: 14px;
-              border-radius:50%;
+
+            .proteinerepen-hero-item-text:before {
+              content: '✔';
+              color: #3A3A3A;
+              display: block;
+              width: 1.5em;
+              height: 1.5em;
+              line-height: 1.5em;
+              text-align: center;
+              font-size: .7em;
+              background-color: #EE4D94;
+              position: absolute;
+              top: .2em;
+              left: 0;
+              border-radius: 100px;
             }
             .proteinerepen-hero-item-text {
-              font-family: DM Sans;
-              font-weight: 500;
-              font-size: 14px;
+              font-family: 'Poppins';
+              font-weight: 400;
+              font-size: 15px;
+              color: #3A3A3A;
+
+              padding-left: 1.7em;
+              position: relative;
             }
+
             .proteinerepen-hero-bottom {
               display: flex;
               align-items: center;
@@ -146,23 +166,23 @@
               border: 1px solid #FD1A86;
               border-radius: 5px;
               right: 5%;
-              top: 35%;
+              top: 40%;
             }
             .proteinerepen-hero-protein-value {
-              font-family: DM Sans;
+              font-family: 'Poppins';
               font-weight: 900;
               font-size: 14px;
               line-height: 14px;
             }
             .proteinerepen-hero-protein-text {
-              font-family: DM Sans;
+              font-family: 'Poppins';
               font-weight: 400;
               font-size: 10px;
             }
             
-            @media (max-width: 390px) {
+            @media (max-width: 375px) {
               .proteinerepen-hero-subtitle {
-                transform: scale(0.95) !important;
+                transform: scale(0.9) !important;
                 transform-origin: top left !important;
               }
               .proteinerepen-hero-item-text {
@@ -183,10 +203,6 @@
           const images = {
             bottomSVG:
               "https://cdn.shopify.com/s/files/1/0818/5708/5754/files/FitPiggy_bekend-van_Albert-Heijn.png?v=1755500043",
-            tickIcon: `<svg class="proteinerepen-hero-item-tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
-                fill="none" stroke="currentColor" stroke-width="2" 
-                stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6L9 17l-5-5"/>`,
             chocoBars:
               "https://cdn.shopify.com/s/files/1/0818/5708/5754/files/Proteinerepen-fitpiggy.png?v=1755500044",
           };
@@ -194,7 +210,7 @@
           const heroData = [
             "De reep waar je wél naar uitkijkt",
             "Zacht & Smeuïg",
-            "Smaakt als je favoriete candybar",
+            "Smaakt als je favo candybar",
           ];
 
           const hideElement = (selector) => {
@@ -216,7 +232,6 @@
                     .map(
                       (text) => `
                     <span class="proteinerepen-hero-list-item">
-                      ${images.tickIcon}
                       <span class="proteinerepen-hero-item-text">${text}</span>
                     </span>
                   `

@@ -26,7 +26,9 @@
   }
 
   waitForElement(
-    () => !!document.querySelector(config.selector),
+    () =>
+      !!document.querySelector("main .cart") &&
+      !!document.querySelector(config.selector),
     () => {
       let echoVariation = {
         init: function () {
@@ -48,6 +50,7 @@
             .uom-propety,
             .price--vat,
             .cart__product-price .price:has(.price--sm),
+            .d-flex:not(.align-items-center) > .cart__product-price,
             .cart__summary-total .col-auto > div:nth-child(3) {
               display: none;
             }
@@ -55,10 +58,64 @@
             .cart__product .d-flex > .d-flex:has(.cart__product-price) {
               justify-content: space-between;
             }
+
+            .d-flex:has(.align-items-center) > .cart__product-price {
+              padding-right: 0;
+            }
+
+            @media screen and (max-width: 575px) {
+              .cart__product > div.col-auto {
+                margin-top: 0.25rem !important;
+                margin-left: 0.5rem !important;
+              }
+
+              .text-success-dark:before {
+                content: "";
+                margin-right: 0;
+              }
+            }
           `;
         },
         mainJS: function () {
           console.log("== main js is running ===");
+
+          function testLogic() {
+            document.querySelectorAll(".cart__product h3 > a").forEach((e) => {
+              e.innerHTML = e.innerText
+                .toLowerCase()
+                .replace(/(^\w)|((?<=-\s*)\w)/g, (m) => m.toUpperCase());
+            });
+
+            if (window.innerWidth <= 575) {
+              document
+                .querySelectorAll(
+                  ".cart__products div.col > div.d-flex > div.align-items-center:has(.uom-propety)"
+                )
+                .forEach((element) => {
+                  const existingPriceEl = element.querySelector(
+                    ".cart__product-price"
+                  );
+
+                  if (existingPriceEl) return;
+
+                  const priceEl = element
+                    .closest(".cart__product")
+                    ?.querySelector(".cart__product-price");
+
+                  if (priceEl) {
+                    element.insertAdjacentElement("beforeend", priceEl);
+                  }
+                });
+            }
+          }
+
+          testLogic();
+
+          const targetNode = document.querySelector(".cart__products");
+          new MutationObserver(() => {
+            console.log("== change applied ==");
+            testLogic();
+          }).observe(targetNode, { childList: true });
         },
 
         handleClarityTracking: function () {

@@ -95,9 +95,6 @@
               }
 
               .id77-alt-bullet-points li {
-                font-family: "DM Sans";
-                font-weight: 400;
-                font-size: 14px;
                 position: relative;
                 padding-left: 25px;
                 background-image: url(https://cdn.shopify.com/s/files/1/0818/5708/5754/files/checkmark-new.svg?v=1733400302);
@@ -128,14 +125,6 @@
                 font-size: 18px;
               }
 
-              .id77-content-holder .restock-rocket-button.restock-rocket-button-collection {
-                min-height: unset !important;
-                margin-top: 15px !important;
-                font-family: "DM Sans" !important;
-                font-size: 16px !important;
-                padding: 12px 4px;
-              }
-
               #main-collection-product-grid .product-item .product-item__price {
                 font-family: "DM Sans";
                 width: 100%;
@@ -146,14 +135,14 @@
                 width: 100%;
                 text-align: start;
                 padding-left: 22px;
-                margin-bottom: 0 !important;
+                margin-bottom: 0;
               }
               .id77-bullet-points > ul {
                 list-style: disc;
               }
               .id77-bullet-points li {
                 font-family: "DM Sans";
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 400;
               }
               
@@ -184,82 +173,100 @@
                 font-size: 16px;
               }
 
-              #main-collection-product-grid {
-                opacity: 0;
-              }
-
-              #main-collection-product-grid.id77-loaded {
-                opacity: 1;
-              }
-
-              @media screen and (max-width: 379px) {
-                .id77-content-holder .restock-rocket-button.restock-rocket-button-collection {
-                  font-size: 13px !important;
-                }
-              }
-
-              @media screen and (min-width: 380px) and (max-width: 414px) {
-                .id77-content-holder .restock-rocket-button.restock-rocket-button-collection {
-                  font-size: 15px !important;
-                }
-              }
-
            `;
         },
 
         mainJS: function () {
           console.log("=== Main JS running ===", config.test_name);
 
-          const parser = new DOMParser();
+          async function fetchProductData() {
+            const parser = new DOMParser();
 
-          async function fetchDocument(url) {
-            const res = await fetch(url);
-            const text = await res.text();
-            return parser.parseFromString(text, "text/html");
-          }
+            /**
+             * Fetch & parse HTML from a given URL
+             */
+            async function fetchDocument(url) {
+              const res = await fetch(url);
+              const text = await res.text();
+              return parser.parseFromString(text, "text/html");
+            }
 
-          function extractCase1Data(el) {
-            const titleKey = el
-              .querySelector(".bundly__product_title a")
-              ?.textContent?.trim();
-            if (!titleKey) return null;
+            /**
+             * Extract data for a single product element
+             */
+            async function extractProductData(el) {
+              const titleKey = el
+                .querySelector(".bundly__product_title a")
+                ?.textContent?.trim();
+              if (!titleKey) return null;
 
-            const customDataEls = el.querySelectorAll(
-              ".bundly__product_custom_data"
-            );
-
-            if (customDataEls[1]?.innerHTML) {
-              const updatedValue = customDataEls[1].innerHTML.replace(
-                "metafield-rich_text_field",
-                "id77-bullet-points"
+              const customDataEls = el.querySelectorAll(
+                ".bundly__product_custom_data"
               );
-              return { key: titleKey, value: updatedValue };
+
+              // Case 1: Rich text field available
+              if (customDataEls[1]?.innerHTML) {
+                const updatedValue = customDataEls[1].innerHTML.replace(
+                  "metafield-rich_text_field",
+                  "id77-bullet-points"
+                );
+                console.log("== dataset: ==", { [titleKey]: updatedValue });
+                return { [titleKey]: updatedValue };
+              }
+
+              // Case 2: Fallback – fetch product page
+              const productLink = document.querySelector(
+                `.product-item__title[title="${titleKey}"]`
+              )?.href;
+
+              if (!productLink) return null;
+
+              const productDoc = await fetchDocument(productLink);
+              const subtitleEl = productDoc.querySelector(
+                ".product-text .product__subtitle"
+              );
+
+              console.log("=== subtitle ===", subtitleEl);
+
+              if (subtitleEl) {
+                const updatedValue = `<div class="id77-alt-bullet-points">${subtitleEl.innerHTML.trim()}</div>`;
+                return { [titleKey]: updatedValue };
+              }
+
+              return null;
             }
 
-            // no case1 → return only link for later
-            const link = el.querySelector(".bundly__product_title a")?.href;
-            return { key: titleKey, link };
-          }
+            try {
+              const doc = await fetchDocument(
+                "https://fitpiggy.nl/collections/regular-boxen/products/pick-mix-regulars-medium"
+              );
 
-          async function extractCase2Data(titleKey, productLink) {
-            const productDoc = await fetchDocument(productLink);
-            const subtitleEl = productDoc.querySelector(
-              ".product-text .product__subtitle"
-            );
+              const productDetails = doc.querySelectorAll(
+                ".bundly__product_details"
+              );
+              console.log("== roduct dtls ==", productDetails);
+              const results = {};
 
-            if (subtitleEl) {
-              const updatedValue = `<div class="id77-alt-bullet-points">${subtitleEl.innerHTML.trim()}</div>`;
-              return { [titleKey]: updatedValue };
+              for (const el of productDetails) {
+                const productData = await extractProductData(el);
+                if (productData) Object.assign(results, productData);
+              }
+
+              console.log("== results ==", results);
+              return results;
+            } catch (error) {
+              console.error("Fetch failed:", error.message);
+              return {};
             }
-            return null;
           }
 
+          // ordering elements
           function elementsOrdering(testData) {
             document.querySelectorAll(".product-item")?.forEach((item) => {
               const productText = item.querySelector(
                 ".product-item__text:has(.product-item__icons)"
               );
-              const productPrice = productText?.querySelector(
+              const productPrice = productText.querySelector(
                 ".product-item__price"
               );
               const productButton = item.querySelector(
@@ -267,92 +274,37 @@
               );
 
               if (productText || productButton) {
-                let textAndBtnHolder = item.querySelector(
-                  ".id77-content-holder"
-                );
-                if (!textAndBtnHolder) {
-                  textAndBtnHolder = document.createElement("div");
-                  textAndBtnHolder.classList.add("id77-content-holder");
-                }
+                const textAndBtnHolder = document.createElement("div");
+                textAndBtnHolder.classList.add("id77-content-holder");
 
+                // retriving this test's data from testData object
                 const itemKey = item.querySelector(
                   ".product-item__title span"
                 )?.textContent;
+                console.log("== data ==", testData[itemKey]);
                 const productBulletPoints = testData[itemKey];
 
-                if (
-                  productBulletPoints &&
-                  !productText.querySelector(
-                    ".id77-bullet-points, .id77-alt-bullet-points"
-                  )
-                ) {
-                  productPrice?.insertAdjacentHTML(
-                    "beforebegin",
-                    productBulletPoints
-                  );
-                }
+                textAndBtnHolder.appendChild(productText);
 
-                if (productText) textAndBtnHolder.appendChild(productText);
-                if (productButton) textAndBtnHolder.appendChild(productButton);
+                productPrice.insertAdjacentHTML(
+                  "beforebegin",
+                  productBulletPoints
+                );
+
+                textAndBtnHolder?.appendChild(productButton);
 
                 item.appendChild(textAndBtnHolder);
               }
             });
           }
 
-          async function runPhases() {
-            try {
-              const doc = await fetchDocument(
-                "https://fitpiggy.nl/collections/regular-boxen/products/pick-mix-regulars-medium"
-              );
-              const productDetails = doc.querySelectorAll(
-                ".bundly__product_details"
-              );
+          // Run the function
+          fetchProductData().then((data) => {
+            console.log("== Collected metafields: ==", data);
+            console.log("== Data keys: ==", Object.keys(data));
 
-              const case1Results = {};
-              const missingProducts = [];
-
-              // First pass: Case 1 + collect missing
-              for (const el of productDetails) {
-                const data = extractCase1Data(el);
-                if (!data) continue;
-
-                if (data.value) {
-                  // case 1 available
-                  case1Results[data.key] = data.value;
-                } else if (data.link) {
-                  // missing case 1, store for case 2 later
-                  missingProducts.push({ key: data.key, link: data.link });
-                }
-              }
-
-              // Show Case 1 instantly
-              console.log("== Case 1 Data ==", case1Results);
-              elementsOrdering(case1Results);
-
-              document
-                .querySelector("#main-collection-product-grid")
-                .classList.add("id77-loaded");
-
-              // Case 2: Fetch missing products one by one (background)
-              (async () => {
-                for (const product of missingProducts) {
-                  const case2Data = await extractCase2Data(
-                    product.key,
-                    product.link
-                  );
-                  if (case2Data) {
-                    console.log("== Case 2 Data (partial) ==", case2Data);
-                    elementsOrdering(case2Data);
-                  }
-                }
-              })();
-            } catch (error) {
-              console.error("Run phases failed:", error.message);
-            }
-          }
-
-          runPhases();
+            elementsOrdering(data);
+          });
         },
 
         handleTracking: function () {

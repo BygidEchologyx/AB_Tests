@@ -154,36 +154,36 @@
             {
               name: "Overkapping",
               imgUrl:
-                "https://abtest-img-upload.s3.eu-west-2.amazonaws.com/image+1+(1).png",
-              link: "https://www.wovar.nl/schroeven-voor-overkappingen",
+                "https://images.prismic.io/wovar-rb2-dev/aKLhW6Tt2nPbaZ2x_Overkapping-klus.png?auto=format%2Ccompress&h=186&dpr=1",
+              link: "https://www.wovar.nl/overkapping-schroeven/",
               className: "ck-goal-overkapping",
             },
             {
               name: "Schuur",
               imgUrl:
-                "https://abtest-img-upload.s3.eu-west-2.amazonaws.com/image+2.png",
-              link: "https://www.wovar.nl/schroeven-voor-schuren",
+                "https://images.prismic.io/wovar-rb2-dev/aKLhWKTt2nPbaZ2u_Schuur-klus.png?auto=format%2Ccompress&h=186&dpr=1",
+              link: "https://www.wovar.nl/schuur-schroeven/",
               className: "ck-goal-schuur",
             },
             {
               name: "Tuindeur",
               imgUrl:
-                "https://abtest-img-upload.s3.eu-west-2.amazonaws.com/image+3.png",
-              link: "https://www.wovar.nl/schroeven-voor-tuindeur",
+                "https://images.prismic.io/wovar-rb2-dev/aKLhWaTt2nPbaZ2v_Tuindeur-klus.png?auto=format%2Ccompress&h=186&dpr=1",
+              link: "https://www.wovar.nl/tuindeur-schroeven/",
               className: "ck-goal-tuindeur",
             },
             {
               name: "Vlonder",
               imgUrl:
-                "https://abtest-img-upload.s3.eu-west-2.amazonaws.com/image+4.png",
-              link: "https://www.wovar.nl/schroeven-voor-vlonder",
+                "https://images.prismic.io/wovar-rb2-dev/aKLhV6Tt2nPbaZ2t_Vlonder-klus.png?auto=format%2Ccompress&h=186&dpr=1",
+              link: "https://www.wovar.nl/welke-schroeven-vlonder/",
               className: "ck-goal-vlonder",
             },
             {
               name: "Schutting",
               imgUrl:
-                "https://abtest-img-upload.s3.eu-west-2.amazonaws.com/image+5.png",
-              link: "https://www.wovar.nl/schroeven-voor-schutting",
+                "https://images.prismic.io/wovar-rb2-dev/aKLhWqTt2nPbaZ2w_Schutting-klus.png?auto=format%2Ccompress&h=186&dpr=1",
+              link: "https://www.wovar.nl/schutting-schroeven/",
               className: "ck-goal-schutting",
             },
           ];
