@@ -49,7 +49,7 @@
           styles.setAttribute("id", config.test_id + "-style");
           document.head.appendChild(styles).textContent = `
             .sticky-checkout-btn {
-              background: #fff;
+              background: #F5F5F5;
               padding: 14px 38px;
               position: fixed;
               bottom: 0;
@@ -188,3 +188,5 @@
     }
   );
 })();
+
+// https://www.wovar.nl/cart?_conv_eforce=1004167739.1004396145&utm_campaign=id31
